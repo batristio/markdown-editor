@@ -1,6 +1,6 @@
 <template>
-  <div>
-
+  <div class="Editor">
+    "editor"
   </div>
 </template>
 
@@ -11,3 +11,11 @@ export default {
 }
 
 </script>
+
+<style lang="scss" scoped>
+.Editor {
+  background-color: red;
+  display: inline-block;
+  width: 80%;
+}
+</style>
