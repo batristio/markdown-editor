@@ -1,19 +1,19 @@
 <template>
   <div class="Main">
-    <TaskNavigation/>
-    <Editor/>
+    <DocumentNavigation />
+    <Editor />
   </div>
 </template>
 
 <script>
-import TaskNavigation from './TaskNavigation.vue'
+import DocumentNavigation from './DocumentNavigation.vue'
 import Editor from './Editor.vue'
 
 export default {
   name: 'LearnerDetails',
 
   components: {
-    TaskNavigation,
+    DocumentNavigation,
     Editor
   }
 }

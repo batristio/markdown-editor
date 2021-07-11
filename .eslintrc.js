@@ -4,7 +4,8 @@ module.exports = {
     node: true,
   },
   extends: [
-    'plugin:vue/vue3-essential'
+    'plugin:vue/vue3-essential',
+    'plugin:vue/recommended'
   ],
   parserOptions: {
     parser: 'babel-eslint',
@@ -12,12 +13,6 @@ module.exports = {
   rules: {
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off'
-    // 'semi': [2, "never"],
-    // 'comma-dangle': ["off", "always-multiline"],
-    // 'comma-dangle': ["error", "only-multiline"],
-    // 'eol-last': ["error", "always"],
-    // 'space-before-function-paren': ["error", "always"],
-    // 'no-useless-return': ["off", "always"]
   },
   overrides: [
     {
