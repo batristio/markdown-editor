@@ -37,8 +37,10 @@
           v-for="document in documents"
           :key="document.uid"
           :name="document.name"
+          :uid="document.uid"
           @edit="editDocument(document)"
           @delete="confirmDeleteDocument(document.uid)"
+          @click="setCurrentDocument(document.uid)"
         />
       </ul>
     </div>
@@ -78,7 +80,8 @@ export default {
       'deleteDocument',
       'updateDocument',
       'setIsAddingNewDocument',
-      'setIsUpdatingDocument'
+      'setIsUpdatingDocument',
+      'setCurrentDocument'
     ]),
 
     editDocument(document) {
