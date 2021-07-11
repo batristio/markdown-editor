@@ -1,14 +1,17 @@
 <template>
-  <div class="Document">
+  <div
+    class="Document"
+    @click="onClick"
+  >
     <div>
       <li>{{ name }}</li>
     </div>
 
-    <button @click="deleteDocument">
+    <button @click="onDelete">
       Delete
     </button>
 
-    <button @click="editDocument">
+    <button @click="onEdit">
       Edit
     </button>
   </div>
@@ -26,16 +29,24 @@ export default {
     uid: {
       type: String,
       default: null
+    },
+    content: {
+      type: String,
+      default: ''
     }
   },
 
   methods: {
-    deleteDocument () {
+    onDelete () {
       return this.$emit('delete', this.uid)
     },
 
-    editDocument () {
+    onEdit () {
       return this.$emit('edit', this.uid)
+    },
+
+    onClick () {
+      return this.$emit('click', this.uid)
     }
   }
 }

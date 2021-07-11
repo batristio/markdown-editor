@@ -1,13 +1,20 @@
 <template>
   <div class="Editor">
     "editor"
+    {{ currentDocument }}
   </div>
 </template>
 
 <script>
-
+import { mapGetters } from 'vuex'
 export default {
-  name: 'Editor'
+  name: 'Editor',
+  
+  computed: {
+    ...mapGetters([
+      'currentDocument'
+    ])
+  }
 }
 
 </script>

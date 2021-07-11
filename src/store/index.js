@@ -4,13 +4,15 @@ export default createStore({
   state: {
     documents: [],
     isAddingNewDocument: false,
-    isUpdatingDocument: false
+    isUpdatingDocument: false,
+    currentDocument: null
   },
 
   getters: {
     documents: (state) => state.documents,
     isAddingNewDocument: (state) => state.isAddingNewDocument,
-    isUpdatingDocument: (state) => state.isUpdatingDocument
+    isUpdatingDocument: (state) => state.isUpdatingDocument,
+    currentDocument: (state) => state.currentDocument
   },
 
   actions: {
@@ -36,6 +38,9 @@ export default createStore({
 
     setIsUpdatingDocument ({ commit }, boolean) {
       commit('setIsUpdatingDocument', boolean)
+    },
+    setCurrentDocument ({ commit }, uid) {
+      commit('setCurrentDocument', uid)
     }
   },
 
@@ -74,6 +79,10 @@ export default createStore({
 
     setIsUpdatingDocument(state, boolean) {
       state.isUpdatingDocument = boolean
+    },
+
+    setCurrentDocument(state, uid) {
+      state.currentDocument = state.documents.filter(it => it.uid === uid)
     }
   }
 })
