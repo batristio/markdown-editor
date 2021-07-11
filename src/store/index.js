@@ -53,7 +53,7 @@ export default createStore({
     updateDocument (state, document) {
       state.documents.forEach((it, i) => {
         if (it.uid === document.uid) {
-          state.documents[i].name = document.name
+          state.documents[i] = document
           localStorage.setItem('documents', JSON.stringify(state.documents))
         }
       })
