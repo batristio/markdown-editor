@@ -17,19 +17,30 @@
           placeholder="Type in the new document name."
         >
 
-        <button
-          :hidden="isUpdatingDocument"
-          @click="saveDocument"
-        >
-          Save
-        </button>
+        <div>
+          <button
+            :hidden="isUpdatingDocument"
+            @click="saveDocument"
+          >
+            Save
+          </button>
+        </div>
 
-        <button
-          :hidden="isAddingNewDocument"
-          @click="saveUpdatedDocument"
-        >
-          Update
-        </button>
+        <div>
+          <button
+            :hidden="isAddingNewDocument"
+            @click="saveUpdatedDocument"
+          >
+            Update
+          </button>
+
+          <button
+            :hidden="isAddingNewDocument"
+            @click="cancelUpdatingDocument"
+          >
+            Cancel
+          </button>
+        </div>
       </div>
 
       <ul>
@@ -37,7 +48,6 @@
           v-for="document in documents"
           :key="document.uid"
           :name="document.name"
-          :uid="document.uid"
           @edit="editDocument(document)"
           @delete="confirmDeleteDocument(document.uid)"
           @click="setCurrentDocument(document.uid)"
@@ -105,6 +115,12 @@ export default {
       this.updateDocument(this.localDocument)
       this.localDocument.name = ''
       this.setIsUpdatingDocument(false)
+    },
+
+    cancelUpdatingDocument () {
+      if (confirm('Are you sure you want to cancel editing this document? The action cannot be undone.')) {
+        this.setIsUpdatingDocument(false)
+      }
     },
 
     confirmDeleteDocument (uid) {
