@@ -1,10 +1,9 @@
 <template>
   <div class="DocumentNavigation">
     "Document navigation"
-
     <div>
       <button
-        :disabled="isAddingNewDocument"
+        :disabled="isAddingNewDocument || isUpdatingDocument"
         @click="setIsAddingNewDocument(true)"
       >
         New Document
@@ -19,24 +18,15 @@
 
         <div>
           <button
-            :hidden="isUpdatingDocument"
             @click="saveDocument"
           >
-            Save
-          </button>
-        </div>
-
-        <div>
-          <button
-            :hidden="isAddingNewDocument"
-            @click="saveUpdatedDocument"
-          >
-            Update
+            {{ isAddingNewDocument ? 'Save' : 'Update' }}
           </button>
 
           <button
-            :hidden="isAddingNewDocument"
-            @click="cancelUpdatingDocument"
+            @click="isAddingNewDocument 
+              ? cancelAddingDocument()
+              : cancelUpdatingDocument()"
           >
             Cancel
           </button>
@@ -47,7 +37,7 @@
         <Document
           v-for="document in documents"
           :key="document.uid"
-          :name="document.name"
+          :document="document"
           @edit="editDocument(document)"
           @delete="confirmDeleteDocument(document.uid)"
           @click="setCurrentDocument(document.uid)"
@@ -59,7 +49,7 @@
 
 <script>
 import { v4 as uuid } from 'uuid';
-import { mapActions,mapGetters } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 
 import Document from './Document.vue'
 
@@ -72,7 +62,10 @@ export default {
 
   data () {
     return {
-      localDocument: {}
+      localDocument: {
+        name: '',
+        uid: null
+      }
     }
   },
 
@@ -95,30 +88,35 @@ export default {
     ]),
 
     editDocument(document) {
-      this.localDocument.name = document.name
-      this.localDocument.uid = document.uid
+      this.localDocument = { ...document }
       this.setIsUpdatingDocument(true)
     },
 
     saveDocument () {
+      debugger
       if (this.localDocument.name === '') return
+      if (this.localDocument.uid !== undefined && this.localDocument.uid !== null) {
+        this.updateDocument(this.localDocument)
+        return this.localDocument = {}
+      }
+
       this.addDocument({
         uid: uuid(),
         name: this.localDocument.name
       })
-      this.localDocument.name = ''
-      this.setIsAddingNewDocument(false)
-    },
 
-    saveUpdatedDocument () {
-      if (this.localDocument.name === '') return
-      this.updateDocument(this.localDocument)
-      this.localDocument.name = ''
-      this.setIsUpdatingDocument(false)
+      this.setIsAddingNewDocument(false)
+      return this.localDocument = {}
+    },
+    
+    cancelAddingDocument() {
+      this.localDocument = {}
+      this.setIsAddingNewDocument(false)
     },
 
     cancelUpdatingDocument () {
       if (confirm('Are you sure you want to cancel editing this document? The action cannot be undone.')) {
+        this.localDocument = {}
         this.setIsUpdatingDocument(false)
       }
     },

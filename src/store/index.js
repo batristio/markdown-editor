@@ -19,13 +19,27 @@ export default createStore({
     addDocument ({ commit }, document) {
       commit('setDocument', document)
     },
-    
-    updateDocument ({ commit }, document) {
-      commit('updateDocument', document)
+
+    updateDocument ({ commit, dispatch, getters }, document) {
+      try {
+        getters.documents.forEach((it, index) => {
+          if (it.uid === document.uid) {
+            commit('updateDocument', { document, index })
+          }
+        })
+      } catch (error) {
+        console.log(error)
+      } finally {
+        dispatch('setIsUpdatingDocument', false)
+      }
     },
 
-    deleteDocument({ commit }, uid) {
-      commit('deleteDocument', uid)
+    deleteDocument({ commit, getters }, uid) {
+      getters.documents.forEach((it, index) => {
+        if (it.uid === uid) {
+          commit('deleteDocument', index)
+        }
+      })
     },
 
     loadDocuments ({ commit }) {
@@ -39,6 +53,7 @@ export default createStore({
     setIsUpdatingDocument ({ commit }, boolean) {
       commit('setIsUpdatingDocument', boolean)
     },
+
     setCurrentDocument ({ commit }, uid) {
       commit('setCurrentDocument', uid)
     }
@@ -50,22 +65,14 @@ export default createStore({
       localStorage.setItem('documents', JSON.stringify(state.documents))
     },
 
-    updateDocument (state, document) {
-      state.documents.forEach((it, i) => {
-        if (it.uid === document.uid) {
-          state.documents[i] = document
-          localStorage.setItem('documents', JSON.stringify(state.documents))
-        }
-      })
+    updateDocument (state, { document, index }) {
+      state.documents[index] = document
+      localStorage.setItem('documents', JSON.stringify(state.documents))
     },
 
-    deleteDocument (state, uid) {
-      state.documents.forEach((it, i) => {
-        if (it.uid === uid) {
-          state.documents.splice(i, 1)
-          localStorage.setItem('documents', JSON.stringify(state.documents))
-        }
-      })
+    deleteDocument (state, index) {
+        state.documents.splice(index, 1)
+        localStorage.setItem('documents', JSON.stringify(state.documents))
     },
 
     loadDocuments (state) {

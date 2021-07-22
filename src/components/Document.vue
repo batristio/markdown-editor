@@ -4,7 +4,7 @@
     @click="onClick"
   >
     <div>
-      <li>{{ name }}</li>
+      <li>{{ document.name }}</li>
     </div>
 
     <button @click="onDelete">
@@ -22,31 +22,23 @@ export default {
   name: 'Document',
 
   props: {
-    name: {
-      type: String,
-      default: ''
-    },
-    uid: {
-      type: String,
+    document: {
+      type: Object,
       default: null
-    },
-    content: {
-      type: String,
-      default: ''
     }
   },
 
   methods: {
     onDelete () {
-      return this.$emit('delete', this.uid)
+      return this.$emit('delete', this.document.uid)
     },
 
     onEdit () {
-      return this.$emit('edit', this.uid)
+      return this.$emit('edit', this.document.uid)
     },
 
     onClick () {
-      return this.$emit('click', this.uid)
+      return this.$emit('click', this.document.uid)
     }
   }
 }
